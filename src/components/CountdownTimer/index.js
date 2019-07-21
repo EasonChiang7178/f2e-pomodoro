@@ -126,6 +126,10 @@ class CountdownTimer extends React.PureComponent {
     })
   }
 
+  handleResetButtonClick = () => {
+    this.props.setTimer({ status: "restart" })
+  }
+
   handleCountdownTick = (timer) => {
     const curProgress = timer.total
     const totalProgress = this.props.status === "focusing"
@@ -244,7 +248,7 @@ class CountdownTimer extends React.PureComponent {
 
         <CountdownControls>
           <PlayIcon isBreaking={isTimerBreaking} onClick={this.handleStartClick} />
-          <Reset isBreaking={isTimerBreaking} show={isTimerCounting} />
+          <Reset isBreaking={isTimerBreaking} show={isTimerCounting} onClick={this.handleResetButtonClick} />
         </CountdownControls>
 
         <StyledProgressBar
