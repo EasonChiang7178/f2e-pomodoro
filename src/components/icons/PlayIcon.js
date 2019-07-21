@@ -7,7 +7,15 @@ import PlayHoverIcon from "../../images/icon_play_hover.inline.svg"
 const Wrapper = styled.div`
   position: relative;
   vertical-align: top;
-  cursor: pointer;
+  cursor: pointer;  
+`
+
+const StyledPlayIcon = styled(PlayIcon)`
+  path:last-of-type {
+    ${props => props.isBreaking && {
+      fill: "white"
+    }}
+  }
 `
 
 const StyledPlayHoverIcon = styled(PlayHoverIcon)`
@@ -21,12 +29,18 @@ const StyledPlayHoverIcon = styled(PlayHoverIcon)`
   ${Wrapper}:hover > & {
     opacity: 1;
   }
+
+  path {
+    ${props => props.isBreaking && {
+      fill: "white"
+    }}
+  }
 `
 
-const WrappedPlayIcon = ({ className, onClick }) => (
+const WrappedPlayIcon = ({ className, isBreaking, onClick }) => (
   <Wrapper className={className} onClick={onClick}>
-    <PlayIcon />
-    <StyledPlayHoverIcon />
+    <StyledPlayIcon isbreaking={isBreaking.toString()} />
+    <StyledPlayHoverIcon isbreaking={isBreaking.toString()} />
   </Wrapper>
 )
 

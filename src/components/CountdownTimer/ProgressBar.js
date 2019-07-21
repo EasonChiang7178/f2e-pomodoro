@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 
+import COLORS from "../../constants/theme"
+
 const Container = styled.div`
   width: 100vw;
   height: 17px;
@@ -32,23 +34,23 @@ const ProgressWrapper = styled.div`
 const Progress = styled.div`
   height: 1px;
   width: 100vw;
-  background: white;
+  background: ${props => props.isBreaking ? COLORS.ACCENT_COLOR : "white"};
   flex: 0 0 auto;
 `
 
 const Info = styled.div`
   margin-left: 8px;
   font-size: 14px;
-  color: white;
+  color: ${props => props.isBreaking ? COLORS.ACCENT_COLOR : "white"};
   line-height: 17px;
   flex: 0 0 auto;
 `
 
-export default ({ className, show, text, percentage = 0 }) => (
+export default ({ className, show, text, percentage = 0, isBreaking }) => (
   <Container className={className} show={show}>
     <ProgressWrapper percentage={percentage}>
-      <Progress />
-      <Info>{text}</Info>
+      <Progress isBreaking={isBreaking} />
+      <Info isBreaking={isBreaking}>{text}</Info>
     </ProgressWrapper>
   </Container>
 )

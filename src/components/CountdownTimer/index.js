@@ -26,7 +26,7 @@ const TaskName = styled.h1`
   font-size: 18px;
   line-height: 25px;
   font-weight: 400;
-  color: ${COLORS.ACCENT_COLOR};
+  color: ${props => props.isBreaking ? "white" : COLORS.ACCENT_COLOR};
 `
 
 const CountdownStyler = styled.div`
@@ -34,7 +34,7 @@ const CountdownStyler = styled.div`
   margin-left: 13px;
   margin-bottom: 64px;
   font-size: 57px;
-  color: ${COLORS.ACCENT_COLOR};
+  color: ${props => props.isBreaking ? "white" : COLORS.ACCENT_COLOR};
   line-height: 69px;
 `
 
@@ -48,7 +48,7 @@ const Reset = styled.div.attrs({
 })`
   margin-top: 16px;
   font-size: 22px;
-  color: ${COLORS.ACCENT_COLOR};
+  color: ${props => props.isBreaking ? "white" : COLORS.ACCENT_COLOR};
   cursor: pointer;
 
   opacity: 0;
@@ -77,7 +77,7 @@ const Dot = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: ${COLORS.ACCENT_COLOR};
+  background: ${props => props.isBreaking ? "white" : COLORS.ACCENT_COLOR};
 
   & + & {
     margin-left: 8px;
@@ -132,7 +132,7 @@ class CountdownTimer extends React.PureComponent {
       if (this.props.status !== "none") {
         this.startTimer()
       }
-    }, 1000)
+    }, 1100)
   }
 
   getNextTimerStatus = () => {
@@ -153,7 +153,7 @@ class CountdownTimer extends React.PureComponent {
     : Date.now() + this.props.focusMilliseconds
 
   countdownRenderer = ({ minutes, seconds }) => (
-    <CountdownStyler>
+    <CountdownStyler isBreaking={this.props.status === "breaking"}>
       {zeroPad(minutes)} : {zeroPad(seconds)}
     </CountdownStyler>
   )
@@ -174,12 +174,13 @@ class CountdownTimer extends React.PureComponent {
     const curTaskName = curTask && curTask.name
     const curTaskIteration = (curTask && curTask.iteration) || 0
     const isTimerCounting = status !== "none"
+    const isTimerBreaking = status === "breaking"
     const progressInfo = status === "breaking"
       ? "Break ......" : "Focus ......"
 
     return (
       <Wrapper>
-        <TaskName>{curTaskName}</TaskName>
+        <TaskName isBreaking={isTimerBreaking}>{curTaskName}</TaskName>
         
         <Countdown
           key={status !== "breaking" ? "f" : "b"}
@@ -187,26 +188,28 @@ class CountdownTimer extends React.PureComponent {
           autoStart={false}
           renderer={this.countdownRenderer}
           ref={this.setCountdownApi}
+          intervalDelay={500}
           onTick={this.handleCountdownTick}
           onComplete={this.handleCountdownComplete}
         />
 
         <CountdownControls>
-          <PlayIcon onClick={this.handleStartClick} />
-          <Reset show={isTimerCounting} />
+          <PlayIcon isBreaking={isTimerBreaking} onClick={this.handleStartClick} />
+          <Reset isBreaking={isTimerBreaking} show={isTimerCounting} />
         </CountdownControls>
 
         <StyledProgressBar
+          isBreaking={isTimerBreaking}
           show={isTimerCounting}
           percentage={100 - this.state.timerProgressPercentage}
           text={progressInfo}
         />
 
         <IterationWrapper>
-          {Array.from(Array(curTaskIteration)).map((_, i) => <Dot key={i} />)}
+          {Array.from(Array(curTaskIteration)).map((_, i) => <Dot key={i} isBreaking={isTimerBreaking} />)}
         </IterationWrapper>
 
-        {curTask && <FinishTaskButton />}
+        {curTask && <FinishTaskButton isBreaking={isTimerBreaking} />}
       </Wrapper>
     )
   }
