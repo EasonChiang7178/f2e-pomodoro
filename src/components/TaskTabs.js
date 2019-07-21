@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
 import TodoTaskList from "../components/TodoTaskList"
+import FinishedTaskList from "../components/FinishedTaskList"
 
 const StyledTabList = styled(TabList)`
   list-style-type: none;
@@ -45,7 +46,7 @@ export default () => (
       <TodoTaskList />
     </TabPanel>
     <TabPanel>
-      <h2>Any content 2</h2>
+      <FinishedTaskList />
     </TabPanel>
   </Tabs>
 )

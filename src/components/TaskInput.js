@@ -50,6 +50,7 @@ const Button = styled.button`
   color: white;
   line-height: 22px;
   flex: 0 0 auto;
+  transition: background .3s ease;
   cursor: ${props => props.disabled ? "not-allowed" : "pointer"};
 
   &:focus {
@@ -76,7 +77,7 @@ class TaskInput extends React.PureComponent {
     this.props.onCreateTaskButtonClick({
       id: shortId.generate(),
       name: createdTaskName,
-      iteration: 0
+      iteration: 9
     })
 
     this.setState(() => ({ inputTaskName: "" }))

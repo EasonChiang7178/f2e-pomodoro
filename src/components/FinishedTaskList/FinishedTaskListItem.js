@@ -2,9 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 
-import CheckBoxIcon from "../icons/CheckBoxIcon"
-import PlayIcon from "../icons/ListPlayIcon"
-import DeleteButton from "./DeleteButton"
+import PressedCheckBoxIcon from "../../images/icon_checkbox_pressed.inline.svg"
 
 import COLORS from "../../constants/theme"
 
@@ -40,31 +38,17 @@ const Dot = styled.div`
   }
 `
 
-const ToolWrapper = styled.div`
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s ease, visibility 0s linear .3s;
-
-  ${Wrapper}:hover & {
-    opacity: 1;
-    visibility: visible;
-    transition: visibility 0s linear, opacity .3s ease;
-  }
+const StyledPressedCheckBoxIcon = styled(PressedCheckBoxIcon)`
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 8px;
 `
 
-
-class TodoTaskListItem extends React.PureComponent {
+class FinishedTaskListItem extends React.PureComponent {
   static propTypes = {
     index: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     iteration: PropTypes.number.isRequired,
-    onFinishTaskClick: PropTypes.func.isRequired,
-    onRemoveTaskClick: PropTypes.func.isRequired,
-    onFocusTaskClick: PropTypes.func.isRequired,
   }
 
   handleFinishTaskButtonClick = () => {
@@ -87,24 +71,19 @@ class TodoTaskListItem extends React.PureComponent {
 
     return (
       <Wrapper>
-        
+
         <TaskInfoWrapper>
-          <CheckBoxIcon onClick={this.handleFinishTaskButtonClick} />
+          <StyledPressedCheckBoxIcon />
           <TaskName>{name}</TaskName>
-          <PlayIcon onClick={this.handleFocusTaskButtonClick} />
         </TaskInfoWrapper>
 
         <IterationWrapper>
           {Array.from(Array(iteration)).map((_, i) => <Dot key={i} />)}
         </IterationWrapper>
 
-        <ToolWrapper>
-          <DeleteButton onClick={this.handleRemoveTaskButtonClick} />
-        </ToolWrapper>
-
       </Wrapper>
     )
   }
 }
 
-export default TodoTaskListItem
+export default FinishedTaskListItem
