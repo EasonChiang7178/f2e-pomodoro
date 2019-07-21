@@ -2,11 +2,13 @@ import React from "react"
 
 const defaultContextValue = {
   tasks: [],
+  finishedTasks: [],
   curFocusTaskId: "",
   addTodoTask: () => {},
   removeTodoTask: () => {},
   editTodoTask: () => {},
   setFocusTaskId: () => {},
+  finishTask: () => {},
 }
 
 const { Provider, Consumer } = React.createContext(defaultContextValue)
@@ -21,6 +23,7 @@ class TaskContextProvider extends React.PureComponent {
       removeTodoTask: this.removeTodoTask,
       editTodoTask: this.editTodoTask,
       setFocusTaskId: this.setFocusTaskId,
+      finishTask: this.finishTask,
     }
   }
 
@@ -29,6 +32,15 @@ class TaskContextProvider extends React.PureComponent {
       tasks: [
         ...state.tasks,
         newTask,
+      ],
+    }))
+  }
+
+  addFinishTask = (newFinishTask) => {
+    this.setState(state => ({
+      finishedTasks: [
+        ...state.finishedTasks,
+        { ...newFinishTask, timestamp: +new Date()},
       ],
     }))
   }
@@ -56,6 +68,14 @@ class TaskContextProvider extends React.PureComponent {
     this.setState(() => ({
       curFocusTaskId: taskId
     }))
+  }
+
+  finishTask = (_, toFinishTaskIndex) => {
+    const { tasks } = this.state
+    const finishedTask = tasks[toFinishTaskIndex]
+
+    this.addFinishTask(finishedTask)
+    this.removeTodoTask(toFinishTaskIndex)
   }
 
   render = () => (

@@ -7,7 +7,7 @@ import TodoTaskListItem from "./TodoTaskListItem"
 import EmptyMessage from "./EmptyMessage"
 
 class TodoTaskList extends React.PureComponent {
-  
+
   handleFocusTaskButtonClick = (taskId) => {
     const { setFocusTaskId } = this.props
 
@@ -16,11 +16,15 @@ class TodoTaskList extends React.PureComponent {
   }
 
   render = () => {
-    const { tasks, removeTodoTask } = this.props
+    const { tasks, removeTodoTask, finishTask } = this.props
 
     return (
       tasks.length <= 0
-        ? <EmptyMessage />
+        ? (
+          <EmptyMessage>
+            目前沒有待辦事項，<br />新增代辦事項並開始專注
+          </EmptyMessage>
+        )
         : tasks.map((task, index) => (
           <TodoTaskListItem
             key={task.id}
@@ -28,6 +32,7 @@ class TodoTaskList extends React.PureComponent {
             index={index}
             name={task.name}
             iteration={task.iteration}
+            onFinishTaskClick={finishTask}
             onRemoveTaskClick={removeTodoTask}
             onFocusTaskClick={this.handleFocusTaskButtonClick}
           />
@@ -38,11 +43,12 @@ class TodoTaskList extends React.PureComponent {
 
 export default () => (
   <TaskConsumer>
-    {({ tasks, removeTodoTask, setFocusTaskId }) => (
+    {({ tasks, removeTodoTask, setFocusTaskId, finishTask }) => (
       <TodoTaskList
         tasks={tasks}
         removeTodoTask={removeTodoTask}
         setFocusTaskId={setFocusTaskId}
+        finishTask={finishTask}
       />
     )}
   </TaskConsumer>

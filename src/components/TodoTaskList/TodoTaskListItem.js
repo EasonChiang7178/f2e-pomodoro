@@ -62,8 +62,14 @@ class TodoTaskListItem extends React.PureComponent {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     iteration: PropTypes.number.isRequired,
+    onFinishTaskClick: PropTypes.func.isRequired,
     onRemoveTaskClick: PropTypes.func.isRequired,
     onFocusTaskClick: PropTypes.func.isRequired,
+  }
+
+  handleFinishTaskButtonClick = () => {
+    const { index, id, onFinishTaskClick } = this.props
+    onFinishTaskClick(id, index)
   }
 
   handleRemoveTaskButtonClick = () => {
@@ -83,7 +89,7 @@ class TodoTaskListItem extends React.PureComponent {
       <Wrapper>
         
         <TaskInfoWrapper>
-          <CheckBoxIcon />
+          <CheckBoxIcon onClick={this.handleFinishTaskButtonClick} />
           <TaskName>{name}</TaskName>
           <PlayIcon onClick={this.handleFocusTaskButtonClick} />
         </TaskInfoWrapper>

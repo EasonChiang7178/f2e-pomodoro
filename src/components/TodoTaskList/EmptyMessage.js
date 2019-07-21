@@ -16,11 +16,11 @@ const Message = styled.p`
   color: ${COLORS.ACCENT_COLOR};
 `
 
-const EmptyMessage = () => (
+const EmptyMessage = ({ children }) => (
   <Wrapper>
     <EmptyTodoTaskIcon />
     <Message>
-      目前沒有待辦事項，<br/>新增代辦事項並開始專注
+      {children}
     </Message>
   </Wrapper>
 )
