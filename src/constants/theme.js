@@ -1,0 +1,11 @@
+const THEME = {
+  LIGHT: {
+    PRIMARY_COLOR: "#92C8E0",
+    SECONDARY_COLOR: "#C4DAE6",
+    ACCENT_COLOR: "#67ABD6",
+    AUXILIARY_COLOR: "#E1E6E6",
+    LIGHT_COLOR: "white"
+  }
+}
+
+export default THEME.LIGHT

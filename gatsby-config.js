@@ -32,5 +32,13 @@ module.exports = {
     // `gatsby-plugin-offline`,
     `gatsby-plugin-layout`,
     `gatsby-plugin-styled-components`,
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /\.inline\.svg$/
+        }
+      }
+    }
   ],
 }
