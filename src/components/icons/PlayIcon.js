@@ -15,10 +15,11 @@ const StyledPlayHoverIcon = styled(PlayHoverIcon)`
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  visibility: hidden;
+  opacity: 0;
+  transition: opacity .3s ease;
 
   ${Wrapper}:hover > & {
-    visibility: visible;
+    opacity: 1;
   }
 `
 

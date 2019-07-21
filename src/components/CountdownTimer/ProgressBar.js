@@ -26,7 +26,7 @@ const ProgressWrapper = styled.div`
   bottom: 0;
   display: flex;
   align-items: center;
-  transition: left 1s linear;
+  transition: left 1.1s linear;
 `
 
 const Progress = styled.div`
@@ -41,6 +41,7 @@ const Info = styled.div`
   font-size: 14px;
   color: white;
   line-height: 17px;
+  flex: 0 0 auto;
 `
 
 export default ({ className, show, text, percentage = 0 }) => (

@@ -30,7 +30,7 @@ const Background = ({ isActive }) => (
 
 const BackgroundContainer = () => (
   <TimerConsumer>
-    {({ isBreaking }) => <Background isActive={isBreaking} />}
+    {({ status }) => <Background isActive={status === "breaking"} />}
   </TimerConsumer>
 )
 

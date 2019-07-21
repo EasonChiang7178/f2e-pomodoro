@@ -30,6 +30,8 @@ const TaskName = styled.h1`
 `
 
 const CountdownStyler = styled.div`
+  width: 150px;
+  margin-left: 13px;
   margin-bottom: 64px;
   font-size: 57px;
   color: ${COLORS.ACCENT_COLOR};
@@ -48,6 +50,16 @@ const Reset = styled.div.attrs({
   font-size: 22px;
   color: ${COLORS.ACCENT_COLOR};
   cursor: pointer;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility 0s linear .3s;
+
+  ${props => props.show && {
+    opacity: 1,
+    visibility: "visible",
+    transition: "visibility 0s linear, opacity .3s ease"
+  }}
 `
 
 const StyledProgressBar = styled(ProgressBar)`
@@ -73,48 +85,128 @@ const Dot = styled.div`
 `
 
 class CountdownTimer extends React.PureComponent {
+  constructor(props) {
+    super(props)
+
+    this.countdownApi = null
+
+    this.state = {
+      timerTimeStamp: this.getTimerFutureTimeStamp(),
+      timerProgressPercentage: 100
+    }
+  }
+
+  handleStartClick = () => {
+    this.startTimer()
+    this.props.setTimer({
+      status: this.getNextTimerStatus()
+    })
+  }
+
+  handleCountdownTick = (timer) => {
+    const curProgress = timer.total
+    const totalProgress = this.props.status === "focusing"
+      ? this.props.focusMilliseconds : this.props.breakMilliseconds
+
+    const percentage = curProgress / totalProgress * 100
+    this.setState(() => ({
+      timerProgressPercentage: percentage
+    }))
+  }
+
+  handleCountdownComplete = () => {
+    this.setState(() => ({
+      timerProgressPercentage: 0,
+    }))
+
+    setTimeout(() => {
+      this.props.setTimer({
+        status: this.getNextTimerStatus()
+      })
+
+      this.setState(() => ({
+        timerProgressPercentage: 100,
+        timerTimeStamp: this.getTimerFutureTimeStamp()
+      }))
+
+      if (this.props.status !== "none") {
+        this.startTimer()
+      }
+    }, 1000)
+  }
+
+  getNextTimerStatus = () => {
+    const { status } = this.props
+    switch (status) {
+      case "none":
+        return "focusing"
+      case "focusing":
+        return "breaking"
+      case "breaking":
+      default:
+        return "none"
+    }
+  }
+
+  getTimerFutureTimeStamp = () => this.props.status === "breaking"
+    ? Date.now() + this.props.breakMilliseconds
+    : Date.now() + this.props.focusMilliseconds
+
   countdownRenderer = ({ minutes, seconds }) => (
     <CountdownStyler>
       {zeroPad(minutes)} : {zeroPad(seconds)}
     </CountdownStyler>
   )
 
+  setCountdownApi = (countdown) => {
+    if (countdown) {
+      this.countdownApi = countdown.getApi()
+    }
+  }
+
+  startTimer = () => {
+    this.countdownApi && this.countdownApi.start()
+  }
+
   render = () => {
-    const { curTask, focusMilliseconds, breakMilliseconds, isBreaking } = this.props
+    const { curTask, status } = this.props
     
     const curTaskName = curTask && curTask.name
     const curTaskIteration = (curTask && curTask.iteration) || 0
-
-    const timeStampForFuture = isBreaking
-      ? Date.now() + breakMilliseconds
-      : Date.now() + focusMilliseconds
+    const isTimerCounting = status !== "none"
+    const progressInfo = status === "breaking"
+      ? "Break ......" : "Focus ......"
 
     return (
       <Wrapper>
         <TaskName>{curTaskName}</TaskName>
         
         <Countdown
-          date={timeStampForFuture}
+          key={status !== "breaking" ? "f" : "b"}
+          date={this.state.timerTimeStamp}
           autoStart={false}
           renderer={this.countdownRenderer}
+          ref={this.setCountdownApi}
+          onTick={this.handleCountdownTick}
+          onComplete={this.handleCountdownComplete}
         />
 
         <CountdownControls>
-          <PlayIcon />
-          <Reset />
+          <PlayIcon onClick={this.handleStartClick} />
+          <Reset show={isTimerCounting} />
         </CountdownControls>
 
         <StyledProgressBar
-          show={false}
-          percentage={0}
-          text="Focus ......"
+          show={isTimerCounting}
+          percentage={100 - this.state.timerProgressPercentage}
+          text={progressInfo}
         />
 
         <IterationWrapper>
           {Array.from(Array(curTaskIteration)).map((_, i) => <Dot key={i} />)}
         </IterationWrapper>
 
-        <FinishTaskButton />
+        {curTask && <FinishTaskButton />}
       </Wrapper>
     )
   }
@@ -126,7 +218,7 @@ const CountdownTimerContainer = () => (
       <TaskContextConsumer>
         {({ tasks, curFocusTaskId, finishTask }) => {
           const curTask = tasks.find(t => t.id === curFocusTaskId) || null
-          const { showTimer, curRingtonePath, focusMilliseconds, breakMilliseconds, isBreaking, setTimer } = timerProps
+          const { showTimer, curRingtonePath, focusMilliseconds, breakMilliseconds, status, setTimer } = timerProps
 
           return (
             <CountdownTimer
@@ -136,7 +228,7 @@ const CountdownTimerContainer = () => (
               curRingtonePath={curRingtonePath}
               focusMilliseconds={focusMilliseconds}
               breakMilliseconds={breakMilliseconds}
-              isBreaking={isBreaking}
+              status={status}
               setTimer={setTimer}
             />
           )

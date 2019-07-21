@@ -2,11 +2,13 @@ import React from "react"
 import PropTypes from "prop-types"
 
 const defaultContextValue = {
-  focusMilliseconds: 1500000,
-  breakMilliseconds: 300000,
+  // focusMilliseconds: 1500000,
+  // breakMilliseconds: 300000,
+  focusMilliseconds: 5000,
+  breakMilliseconds: 3000,
   showTimer: true,
   curRingtonePath: "",
-  isBreaking: false,
+  status: "none",
   setTimer: () => {},
 }
 
