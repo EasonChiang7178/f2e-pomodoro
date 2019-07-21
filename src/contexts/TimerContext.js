@@ -9,6 +9,7 @@ const defaultContextValue = {
   showTimer: true,
   curRingtonePath: "",
   status: "none",
+  startTimeNow: false,
   setTimer: () => {},
 }
 

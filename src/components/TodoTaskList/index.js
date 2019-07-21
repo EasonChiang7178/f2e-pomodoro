@@ -2,6 +2,7 @@ import React from "react"
 import { navigate } from "gatsby"
 
 import TaskConsumer from "../../contexts/TaskContext"
+import TimerConsumer from "../../contexts/TimerContext"
 
 import TodoTaskListItem from "./TodoTaskListItem"
 import EmptyMessage from "./EmptyMessage"
@@ -9,9 +10,10 @@ import EmptyMessage from "./EmptyMessage"
 class TodoTaskList extends React.PureComponent {
 
   handleFocusTaskButtonClick = (taskId) => {
-    const { setFocusTaskId } = this.props
+    const { setFocusTaskId, setTimer } = this.props
 
     setFocusTaskId(taskId)
+    setTimer({ startTimerNow: true })
     navigate("/")
   }
 
@@ -42,14 +44,19 @@ class TodoTaskList extends React.PureComponent {
 }
 
 export default () => (
-  <TaskConsumer>
-    {({ tasks, removeTodoTask, setFocusTaskId, finishTask }) => (
-      <TodoTaskList
-        tasks={tasks}
-        removeTodoTask={removeTodoTask}
-        setFocusTaskId={setFocusTaskId}
-        finishTask={finishTask}
-      />
+  <TimerConsumer>
+    {({ setTimer }) => (
+      <TaskConsumer>
+        {({ tasks, removeTodoTask, setFocusTaskId, finishTask }) => (
+          <TodoTaskList
+            tasks={tasks}
+            removeTodoTask={removeTodoTask}
+            setFocusTaskId={setFocusTaskId}
+            finishTask={finishTask}
+            setTimer={setTimer}
+          />
+        )}
+      </TaskConsumer>
     )}
-  </TaskConsumer>
+  </TimerConsumer>
 )

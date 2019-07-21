@@ -97,8 +97,9 @@ class CountdownTimer extends React.PureComponent {
   }
 
   componentDidMount = () => {
-    if (this.props.curTask) {
+    if (this.props.startTimerNow) {
       this.props.setTimer({
+        startTimerNow: false,
         status: this.getNextTimerStatus()
       })
       this.startTimer()
@@ -129,6 +130,13 @@ class CountdownTimer extends React.PureComponent {
     }))
 
     setTimeout(() => {
+      if (this.props.curFocusTaskId && this.props.status === "focusing") {
+        this.props.editTask(this.props.curTaskIndex, {
+          ...this.props.curTask,
+          iteration: this.props.curTask.iteration + 1
+        })
+      }
+
       this.props.setTimer({
         status: this.getNextTimerStatus()
       })
@@ -228,14 +236,18 @@ const CountdownTimerContainer = () => (
   <TimerContextConsumer>
     {(timerProps) => (
       <TaskContextConsumer>
-        {({ tasks, curFocusTaskId, finishTask }) => {
+        {({ tasks, curFocusTaskId, finishTask, editTodoTask }) => {
           const curTask = tasks.find(t => t.id === curFocusTaskId) || null
-          const { showTimer, curRingtonePath, focusMilliseconds, breakMilliseconds, status, setTimer } = timerProps
+          const curTaskIndex = tasks.findIndex(t => t.id === curFocusTaskId)
+          const { showTimer, curRingtonePath, focusMilliseconds, breakMilliseconds, status, setTimer, startTimerNow } = timerProps
 
           return (
             <CountdownTimer
+              startTimerNow={startTimerNow}
               curTask={curTask}
+              curTaskIndex={curTaskIndex}
               finishTask={finishTask}
+              editTask={editTodoTask}
               showTimer={showTimer}
               curRingtonePath={curRingtonePath}
               focusMilliseconds={focusMilliseconds}

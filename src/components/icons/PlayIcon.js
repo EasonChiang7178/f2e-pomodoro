@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 
 const StyledPlayIcon = styled(PlayIcon)`
   path:last-of-type {
-    ${props => props.isBreaking && {
+    ${props => props.isbreaking === "true" && {
       fill: "white"
     }}
   }
@@ -31,7 +31,7 @@ const StyledPlayHoverIcon = styled(PlayHoverIcon)`
   }
 
   path {
-    ${props => props.isBreaking && {
+    ${props => props.isbreaking === "true"  && {
       fill: "white"
     }}
   }
