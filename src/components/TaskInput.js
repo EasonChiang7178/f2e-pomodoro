@@ -77,7 +77,7 @@ class TaskInput extends React.PureComponent {
     this.props.onCreateTaskButtonClick({
       id: shortId.generate(),
       name: createdTaskName,
-      iteration: 9
+      iteration: 0
     })
 
     this.setState(() => ({ inputTaskName: "" }))
