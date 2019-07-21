@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 import TaskInput from "../components/TaskInput"
+import TaskTabs from "../components/TaskTabs"
 import SEO from "../components/seo"
 
 const TaskContainer = styled.div`
@@ -11,11 +12,16 @@ const TaskContainer = styled.div`
   min-height: 664px;
 `
 
+const StyledTaskInput = styled(TaskInput)`
+  margin-bottom: 64px;
+`
+
 const TaskPage = () => (
   <>
     <SEO title="平靜蕃茄鐘 - 代辦事項" />
     <TaskContainer>
-      <TaskInput onCreateTaskButtonClick={(task) => console.warn(task)} />
+      <StyledTaskInput />
+      <TaskTabs />
     </TaskContainer>
   </>
 )

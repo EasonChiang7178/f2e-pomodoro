@@ -46,7 +46,7 @@ const Button = styled.button`
   padding: 4px 20px;
   border: none;
   border-radius: 26px;
-  background: ${props => props.disabled ? COLORS.SECONDARY_COLOR : COLORS.ACCENT_COLOR };
+  background: ${props => props.disabled ? COLORS.SECONDARY_COLOR : COLORS.PRIMARY_COLOR };
   color: white;
   line-height: 22px;
   flex: 0 0 auto;
@@ -59,6 +59,7 @@ const Button = styled.button`
 
 class TaskInput extends React.PureComponent {
   static propTypes = {
+    className: PropTypes.string,
     onCreateTaskButtonClick: PropTypes.func.isRequired
   }
 
@@ -92,7 +93,7 @@ class TaskInput extends React.PureComponent {
     const isCreatedButtonDisabled = inputTaskName.length === 0 ? true : false
 
     return (
-      <InputWrapper>
+      <InputWrapper className={this.props.className}>
         <Input placeholder="＋ 新增代辦事項" value={inputTaskName} onChange={this.handleInputChange} />
         <Button
           disabled={isCreatedButtonDisabled}
@@ -105,10 +106,10 @@ class TaskInput extends React.PureComponent {
   }
 }
 
-const TaskInputContainer = () => (
+const TaskInputContainer = (props) => (
   <TaskConsumer>
     {({ addTodoTask }) => (
-      <TaskInput onCreateTaskButtonClick={addTodoTask} />
+      <TaskInput onCreateTaskButtonClick={addTodoTask} {...props} />
     )}
   </TaskConsumer>
 )
