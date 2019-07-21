@@ -106,6 +106,19 @@ class CountdownTimer extends React.PureComponent {
     }
   }
 
+  componentDidUpdate = () => {
+    if (this.props.status === "restart") {
+      this.pauseTimer()
+      this.props.setTimer({
+        status: "none"
+      })
+      this.setState(() => ({
+        timerTimeStamp: this.getTimerFutureTimeStamp(),
+        timerProgressPercentage: 100
+      }))
+    }
+  }
+
   handleStartClick = () => {
     this.startTimer()
     this.props.setTimer({
@@ -152,6 +165,19 @@ class CountdownTimer extends React.PureComponent {
     }, 1100)
   }
 
+  handleFinishTaskButtonClick = () => {
+    const { status, curTask, editTask, finishTask, curTaskIndex, setTimer } = this.props
+
+    if (status === "focusing") {
+      editTask(curTaskIndex, { ...curTask, iteration: curTask.iteration + 1 })
+    }
+
+    finishTask(curTask.id, curTaskIndex)
+    setTimer({
+      status: "restart"
+    })
+  }
+
   getNextTimerStatus = () => {
     const { status } = this.props
     switch (status) {
@@ -185,6 +211,10 @@ class CountdownTimer extends React.PureComponent {
     this.countdownApi && this.countdownApi.start()
   }
 
+  pauseTimer = () => {
+    this.countdownApi && this.countdownApi.pause()
+  }
+
   render = () => {
     const { curTask, status } = this.props
     
@@ -200,12 +230,14 @@ class CountdownTimer extends React.PureComponent {
         <TaskName isBreaking={isTimerBreaking}>{curTaskName}</TaskName>
         
         <Countdown
-          key={status !== "breaking" ? "f" : "b"}
+          key={status !== "breaking"
+            ? (status === "restart" ? "r" : "f")
+            : "b"
+          }
           date={this.state.timerTimeStamp}
           autoStart={false}
           renderer={this.countdownRenderer}
           ref={this.setCountdownApi}
-          intervalDelay={500}
           onTick={this.handleCountdownTick}
           onComplete={this.handleCountdownComplete}
         />
@@ -226,7 +258,7 @@ class CountdownTimer extends React.PureComponent {
           {Array.from(Array(curTaskIteration)).map((_, i) => <Dot key={i} isBreaking={isTimerBreaking} />)}
         </IterationWrapper>
 
-        {curTask && <FinishTaskButton isBreaking={isTimerBreaking} />}
+        {curTask && <FinishTaskButton isBreaking={isTimerBreaking} onClick={this.handleFinishTaskButtonClick} />}
       </Wrapper>
     )
   }
