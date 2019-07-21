@@ -96,6 +96,15 @@ class CountdownTimer extends React.PureComponent {
     }
   }
 
+  componentDidMount = () => {
+    if (this.props.curTask) {
+      this.props.setTimer({
+        status: this.getNextTimerStatus()
+      })
+      this.startTimer()
+    }
+  }
+
   handleStartClick = () => {
     this.startTimer()
     this.props.setTimer({
