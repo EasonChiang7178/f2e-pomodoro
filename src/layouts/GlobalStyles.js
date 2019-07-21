@@ -5,7 +5,7 @@ import { createGlobalStyle } from 'styled-components'
 const Global = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,600&display=swap');
   body {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Cormorant Garamond', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 `
 

@@ -26,7 +26,7 @@ const NavItemList = styled.ul`
 export default () => {
   const timerPath = '/'
   const taskPath = '/task'
-  const settingPath = '/setting'
+  const settingPath = '/settings'
 
   const curPath = globalHistory.location.pathname
   

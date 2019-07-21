@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import { TodoContextProvider } from "../contexts/TodoContext"
+import { TaskContextProvider } from "../contexts/TaskContext"
 import { TimerContextProvider } from "../contexts/TimerContext"
 
 import GlobalStyles from './GlobalStyles'
@@ -15,13 +15,13 @@ const Layout = ({ children }) => {
       <GlobalStyles />
 
       <TimerContextProvider>
-        <TodoContextProvider>
+        <TaskContextProvider>
           <Background />
           <Navbar />
           <PageContainer>
             {children}
           </PageContainer>
-        </TodoContextProvider>
+        </TaskContextProvider>
       </TimerContextProvider>
     </>
   )
