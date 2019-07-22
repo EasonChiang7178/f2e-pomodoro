@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 import PauseIcon from "../../images/icon_pause.inline.svg"
+import COLORS from "../../constants/theme"
 
 const Wrapper = styled.div`
   position: relative;
@@ -12,8 +13,16 @@ const Wrapper = styled.div`
 const StyledPauseIcon = styled(PauseIcon)`
   g g g {
     ${props => props.isbreaking === "true" && {
-    stroke: "white"
-  }}
+      stroke: "white"
+    }}
+  }
+
+  &:hover g g g {
+    fill: ${COLORS.ACCENT_COLOR};
+
+    ${props => props.isbreaking === "true" && {
+      fill: "white"
+    }}
   }
 `
 
