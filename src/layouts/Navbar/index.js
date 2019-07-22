@@ -44,9 +44,9 @@ export default () => {
         <NavItem to={taskPath} iconComponent={todoIcon}>
           Task
         </NavItem>
-        <NavItem to={settingPath} iconComponent={settingsIcon}>
+        {/* <NavItem to={settingPath} iconComponent={settingsIcon}>
           Settings
-        </NavItem>
+        </NavItem> */}
       </NavItemList>
     </NavbarWrapper>
   )
