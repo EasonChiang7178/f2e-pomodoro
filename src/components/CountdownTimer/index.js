@@ -105,6 +105,7 @@ class CountdownTimer extends React.PureComponent {
         status: this.getNextTimerStatus()
       })
       this.startTimer()
+      this.setState(() => ({ playingStatus: "playing" }))
     }
   }
 
