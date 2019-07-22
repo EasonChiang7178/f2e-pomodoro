@@ -18,7 +18,7 @@ const StyledTaskInput = styled(TaskInput)`
 
 const TaskPage = () => (
   <>
-    <SEO title="平靜蕃茄鐘 - 代辦事項" />
+    <SEO title="清淡蕃茄鐘 - 代辦事項" />
     <TaskContainer>
       <StyledTaskInput />
       <TaskTabs />

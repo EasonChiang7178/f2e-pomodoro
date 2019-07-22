@@ -1,7 +1,7 @@
 module.exports = {
   pathPrefix: "/f2e-pomodoro",
   siteMetadata: {
-    title: `平靜蕃茄鐘`,
+    title: `清淡蕃茄鐘`,
     description: `希望可以平靜下來的清清淡淡口味`,
     author: `@EasonChiang`,
   },
@@ -19,8 +19,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `平靜蕃茄鐘`,
-        short_name: `平靜蕃茄鐘`,
+        name: `清淡蕃茄鐘`,
+        short_name: `清淡蕃茄鐘`,
         start_url: `/`,
         background_color: `#C4DAE6`,
         theme_color: `#67ABD6`,
@@ -34,12 +34,12 @@ module.exports = {
     `gatsby-plugin-layout`,
     `gatsby-plugin-styled-components`,
     {
-      resolve: 'gatsby-plugin-react-svg',
+      resolve: "gatsby-plugin-react-svg",
       options: {
         rule: {
-          include: /\.inline\.svg$/
-        }
-      }
-    }
+          include: /\.inline\.svg$/,
+        },
+      },
+    },
   ],
 }
