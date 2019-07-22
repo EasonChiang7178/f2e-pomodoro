@@ -31,11 +31,12 @@ const TaskName = styled.h1`
 `
 
 const CountdownStyler = styled.div`
-  width: 150px;
-  margin-left: 13px;
+  width: 210px;
+  margin-left: 34px;
   margin-bottom: 64px;
   font-size: 57px;
-  color: ${props => props.isBreaking ? "white" : COLORS.ACCENT_COLOR};
+  color: ${props => (props.isBreaking ? "white" : COLORS.ACCENT_COLOR)};
+  font-family: 'Petit Formal Script';
   line-height: 69px;
 `
 
