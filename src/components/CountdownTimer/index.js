@@ -6,6 +6,7 @@ import TimerContextConsumer from "../../contexts/TimerContext"
 import TaskContextConsumer from "../../contexts/TaskContext"
 
 import PlayIcon from "../../components/icons/PlayIcon"
+import PauseIcon from "../../components/icons/PauseIcon"
 import ProgressBar from "./ProgressBar"
 import FinishTaskButton from "./FinishTaskButton"
 import COLORS from "../../constants/theme"
@@ -92,7 +93,8 @@ class CountdownTimer extends React.PureComponent {
 
     this.state = {
       timerTimeStamp: this.getTimerFutureTimeStamp(),
-      timerProgressPercentage: 100
+      timerProgressPercentage: 100,
+      playingStatus: "init"
     }
   }
 
@@ -121,9 +123,17 @@ class CountdownTimer extends React.PureComponent {
 
   handleStartClick = () => {
     this.startTimer()
-    this.props.setTimer({
-      status: this.getNextTimerStatus()
-    })
+    if (this.state.playingStatus !== "paused") {
+      this.props.setTimer({
+        status: this.getNextTimerStatus()
+      })
+    }
+    this.setState(() => ({ playingStatus: "playing" }))
+  }
+
+  handlePauseClick = () => {
+    this.pauseTimer()
+    this.setState(() => ({ playingStatus: "paused" }))
   }
 
   handleResetButtonClick = () => {
@@ -165,7 +175,10 @@ class CountdownTimer extends React.PureComponent {
 
       if (this.props.status !== "none") {
         this.startTimer()
+      } else {
+        this.setState(() => ({ playingStatus: "init" }))
       }
+
     }, 1100)
   }
 
@@ -219,6 +232,8 @@ class CountdownTimer extends React.PureComponent {
     this.countdownApi && this.countdownApi.pause()
   }
 
+  isTimerPaused = () => this.countdownApi && this.countdownApi.isPaused()
+
   render = () => {
     const { curTask, status } = this.props
     
@@ -228,7 +243,7 @@ class CountdownTimer extends React.PureComponent {
     const isTimerBreaking = status === "breaking"
     const progressInfo = status === "breaking"
       ? "Break ......" : "Focus ......"
-
+    
     return (
       <Wrapper>
         <TaskName isBreaking={isTimerBreaking}>{curTaskName}</TaskName>
@@ -247,7 +262,10 @@ class CountdownTimer extends React.PureComponent {
         />
 
         <CountdownControls>
-          <PlayIcon isBreaking={isTimerBreaking} onClick={this.handleStartClick} />
+          {this.state.playingStatus === "playing"
+            ? <PauseIcon isBreaking={isTimerBreaking} onClick={this.handlePauseClick} />
+            : <PlayIcon isBreaking={isTimerBreaking} onClick={this.handleStartClick} />
+          }
           <Reset isBreaking={isTimerBreaking} show={isTimerCounting} onClick={this.handleResetButtonClick} />
         </CountdownControls>
 
