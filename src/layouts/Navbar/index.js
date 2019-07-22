@@ -45,8 +45,9 @@ const Navbar = ({ disabled }) => {
   // const settingPath = '/settings'
 
   const curPath = globalHistory.location.pathname
-  
-  const getActiveClassIfMatchPath = (targetPath) => curPath === targetPath && { className: "active" }
+  const curPathLastRoute = curPath.slice(curPath.lastIndexOf("/"))
+
+  const getActiveClassIfMatchPath = targetPath => curPathLastRoute === targetPath && { className: "active" }
   const timerIcon = <TimerIcon {...(getActiveClassIfMatchPath(timerPath))} />
   const todoIcon = <TaskIcon {...(getActiveClassIfMatchPath(taskPath))} />
   // const settingsIcon = <SettingIcon {...(getActiveClassIfMatchPath(settingPath))} />
