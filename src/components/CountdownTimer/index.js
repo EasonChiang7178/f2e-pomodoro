@@ -139,6 +139,7 @@ class CountdownTimer extends React.PureComponent {
 
   handleResetButtonClick = () => {
     this.props.setTimer({ status: "restart" })
+    this.setState(() => ({ playingStatus: "init" }))
   }
 
   handleCountdownTick = (timer) => {
