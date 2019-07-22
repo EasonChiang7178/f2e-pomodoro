@@ -2,16 +2,32 @@ import React from "react"
 import styled from "styled-components"
 import { globalHistory } from "@reach/router"
 
+import TimerContextConsumer from "../../contexts/TimerContext"
 import NavItem from "./NavItem"
 
 import TimerIcon from '../../components/icons/TimerIcon'
 import TaskIcon from '../../components/icons/TaskIcon'
 // import SettingIcon from '../../components/icons/SettingsIcon'
 
+const StyledNavItem = styled(NavItem)``
+
 const NavbarWrapper = styled.nav`
   position: absolute;
   top: 32px;
   right: 60px;
+
+  ${StyledNavItem} {
+    ${props => props.disabled && {
+      opacity: .6,
+      cursor: "not-allowed",
+    }}
+
+    a {
+      ${props => props.disabled && {
+        pointerEvents: "none"
+      }}
+    }
+  }
 `
 
 const NavItemList = styled.ul`
@@ -23,7 +39,7 @@ const NavItemList = styled.ul`
   align-items: center;
 `
 
-export default () => {
+const Navbar = ({ disabled }) => {
   const timerPath = '/'
   const taskPath = '/task'
   // const settingPath = '/settings'
@@ -36,18 +52,26 @@ export default () => {
   // const settingsIcon = <SettingIcon {...(getActiveClassIfMatchPath(settingPath))} />
 
   return (
-    <NavbarWrapper>
+    <NavbarWrapper disabled={disabled}>
       <NavItemList>
-        <NavItem to={timerPath} iconComponent={timerIcon}>
+        <StyledNavItem to={timerPath} iconComponent={timerIcon}>
           Timer
-        </NavItem>
-        <NavItem to={taskPath} iconComponent={todoIcon}>
+        </StyledNavItem>
+        <StyledNavItem to={taskPath} iconComponent={todoIcon}>
           Task
-        </NavItem>
-        {/* <NavItem to={settingPath} iconComponent={settingsIcon}>
+        </StyledNavItem>
+        {/* <StyledNavItem to={settingPath} iconComponent={settingsIcon}>
           Settings
-        </NavItem> */}
+        </StyledNavItem> */}
       </NavItemList>
     </NavbarWrapper>
   )
 }
+
+export default () => (
+  <TimerContextConsumer>
+    {({ status }) => (
+      <Navbar disabled={status !== "none"} />
+    )}
+  </TimerContextConsumer>
+)

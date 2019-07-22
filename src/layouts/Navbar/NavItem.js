@@ -32,8 +32,8 @@ const NavLink = styled(Link).attrs(() => ({
   }
 `
 
-export default ({ to, children, iconComponent }) => (
-  <NavItem>
+export default ({ className, to, children, iconComponent }) => (
+  <NavItem className={className}>
     <NavLink to={to}>
       {iconComponent}
       {children}
