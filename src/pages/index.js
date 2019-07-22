@@ -5,7 +5,7 @@ import CountdownTimer from "../components/CountdownTimer"
 
 const IndexPage = () => (
   <>
-    <SEO title="平靜蕃茄鐘" />
+    <SEO title="靜心蕃茄鐘" />
     <CountdownTimer />
   </>
 )

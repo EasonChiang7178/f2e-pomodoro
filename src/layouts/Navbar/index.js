@@ -6,7 +6,7 @@ import NavItem from "./NavItem"
 
 import TimerIcon from '../../components/icons/TimerIcon'
 import TaskIcon from '../../components/icons/TaskIcon'
-import SettingIcon from '../../components/icons/SettingsIcon'
+// import SettingIcon from '../../components/icons/SettingsIcon'
 
 const NavbarWrapper = styled.nav`
   position: absolute;
@@ -26,14 +26,14 @@ const NavItemList = styled.ul`
 export default () => {
   const timerPath = '/'
   const taskPath = '/task'
-  const settingPath = '/settings'
+  // const settingPath = '/settings'
 
   const curPath = globalHistory.location.pathname
   
   const getActiveClassIfMatchPath = (targetPath) => curPath === targetPath && { className: "active" }
   const timerIcon = <TimerIcon {...(getActiveClassIfMatchPath(timerPath))} />
   const todoIcon = <TaskIcon {...(getActiveClassIfMatchPath(taskPath))} />
-  const settingsIcon = <SettingIcon {...(getActiveClassIfMatchPath(settingPath))} />
+  // const settingsIcon = <SettingIcon {...(getActiveClassIfMatchPath(settingPath))} />
 
   return (
     <NavbarWrapper>
