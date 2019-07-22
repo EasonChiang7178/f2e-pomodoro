@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: "/f2e-pomodoro",
   siteMetadata: {
     title: `平靜蕃茄鐘`,
     description: `希望可以平靜下來的清清淡淡口味`,
