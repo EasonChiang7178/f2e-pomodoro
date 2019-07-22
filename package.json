@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "f2e-pomodoro",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "A simple pomodoro",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Eason Chiang <ishiu.chiang@gmail.com>",
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.6",
     "gatsby": "^2.13.32",
@@ -31,7 +31,7 @@
     "prettier": "^1.18.2"
   },
   "keywords": [
-    "gatsby"
+    "pomodoro"
   ],
   "license": "MIT",
   "scripts": {
@@ -39,8 +39,7 @@
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
-    "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "serve": "gatsby serve"
   },
   "repository": {
     "type": "git",
